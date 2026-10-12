@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}My todos{% endblock %}
+{% block stackclass %}wide{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="top">
+    <div>
+      <h1>Hello ya handsa 🍀👋🏾</h1>
+      <p class="who">Logged in as {{ name }}</p>
+    </div>
+    <form method="POST" action="{{ url_for('logout') }}">
+      <button type="submit" class="btn ghost small">Log out</button>
+    </form>
+  </div>
+
+  <form method="POST" class="add" novalidate>
+    <div class="field">
+      <input type="text" name="title" placeholder="What do you need to do?" maxlength="200">
+      {% if errors.title %}<p class="error">{{ errors.title }}</p>{% endif %}
+    </div>
+    <button type="submit" class="btn small" style="padding:13px 20px">Add</button>
+  </form>
+
+  {% if todos %}
+  <ul class="list">
+    {% for t in todos %}
+    <li class="item {% if t.is_done %}done{% endif %}">
+      <div class="row">
+        <form method="POST" action="{{ url_for('toggle_todo', todo_id=t.todo_id) }}">
+          <input type="hidden" name="is_done" value="{{ 0 if t.is_done else 1 }}">
+          <button type="submit" class="check {% if t.is_done %}on{% endif %}" aria-label="Toggle done">{% if t.is_done %}✓{% endif %}</button>
+        </form>
+        <div class="text">
+          <div class="t">{{ t.title }}</div>
+          {% if t.created_at %}<div class="d">{{ t.created_at.strftime('%b %d, %H:%M') }}</div>{% endif %}
+        </div>
+        <div class="acts">
+          <details class="edit">
+            <summary class="icon">Edit</summary>
+          </details>
+          <form method="POST" action="{{ url_for('delete_todo', todo_id=t.todo_id) }}" onsubmit="return confirm('Delete this task?')">
+            <button type="submit" class="icon del">Delete</button>
+          </form>
+        </div>
+      </div>
+      <form method="POST" action="{{ url_for('edit_todo', todo_id=t.todo_id) }}" class="edit-form" hidden>
+        <input type="text" name="title" value="{{ t.title }}" maxlength="200">
+        <button type="submit" class="btn small">Save</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="empty">Nothing here yet. Add your first task ✨</p>
+  {% endif %}
+</div>
+
+<script>
+document.querySelectorAll('details.edit').forEach(function(d){
+  d.addEventListener('toggle', function(){
+    var form = d.closest('.item').querySelector('.edit-form');
+    form.hidden = !d.open;
+    if (d.open) form.querySelector('input').focus();
+  });
+});
+</script>
+{% endblock %}

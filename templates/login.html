@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card">
+  <h1 class="title">Welcome back</h1>
+  <p class="sub">Log in to see your tasks.</p>
+  <form method="POST" novalidate>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="{{ email }}" autocomplete="email">
+    {% if errors.email %}<p class="error">{{ errors.email }}</p>{% endif %}
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" autocomplete="current-password">
+    {% if errors.password %}<p class="error">{{ errors.password }}</p>{% endif %}
+    <button type="submit" class="btn">Log in</button>
+  </form>
+  <p class="links"><a href="{{ url_for('forgot_password') }}">Forgot password?</a></p>
+  <p class="links">No account? <a href="{{ url_for('register') }}">Register</a></p>
+</div>
+{% endblock %}

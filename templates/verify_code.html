@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Verify code{% endblock %}
+{% block content %}
+<div class="card">
+  <h1 class="title">Check your email</h1>
+  <p class="sub">Enter the 4-digit code we sent you. It expires in 10 minutes.</p>
+  <form method="POST" novalidate>
+    <input type="text" name="code" class="code-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" autofocus>
+    {% if errors.code %}<p class="error">{{ errors.code }}</p>{% endif %}
+    <button type="submit" class="btn">Verify</button>
+  </form>
+  <p class="links"><a href="{{ url_for('forgot_password') }}">Request a new code</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="card">
+  <h1 class="title">Create account</h1>
+  <p class="sub">It takes less than a minute.</p>
+  <form method="POST" novalidate>
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" value="{{ name }}" autocomplete="name">
+    {% if errors.name %}<p class="error">{{ errors.name }}</p>{% endif %}
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="{{ email }}" autocomplete="email">
+    {% if errors.email %}<p class="error">{{ errors.email }}</p>{% endif %}
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" autocomplete="new-password">
+    {% if errors.password %}<p class="error">{{ errors.password }}</p>{% endif %}
+    <label for="confirm_password">Confirm password</label>
+    <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password">
+    {% if errors.confirm_password %}<p class="error">{{ errors.confirm_password }}</p>{% endif %}
+    <button type="submit" class="btn">Register</button>
+  </form>
+  <p class="links">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+</div>
+{% endblock %}
